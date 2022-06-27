@@ -1,0 +1,2 @@
+#define REMOTECONTROL_API __declspec(dllexport)
+#define REMOTECONTROL_API __declspec(dllimport)
