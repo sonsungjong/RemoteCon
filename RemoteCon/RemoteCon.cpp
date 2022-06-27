@@ -9,6 +9,8 @@
 
 int main()
 {
+	HWND hConsole = GetConsoleWindow();
+	ShowWindow(hConsole, SW_HIDE);
 	RemoteCon rc;
 	WSADATA data;
 	WSAStartup(0x0202, &data);
@@ -21,7 +23,6 @@ int main()
 	InetPtonA(AF_INET, serverIP, &addr_data.sin_addr.s_addr);
 
 	bind(listen_socket, (sockaddr*)&addr_data, sizeof(addr_data));
-	printf("수신 시작");
 
 	sockaddr_in recv_socket;
 	ZeroMemory(&recv_socket, sizeof(recv_socket));
@@ -47,14 +48,11 @@ int main()
 		if (0 == strcmp(buf, killPacket))
 		{
 			rc.ProcessKill("vmplayer.exe");
-			printf("Message rect from %s : %s", clientIP, buf);
 		}
 		else if (0 == strcmp(buf, shutdownPacket)) {
 			rc.WindowsOff();
-			printf("Message rect from %s : %s", clientIP, buf);
 		}
 		else {
-			printf("Message rect from %s : %s", clientIP, buf);
 		}
 	}
 
