@@ -13,9 +13,12 @@ int main()
 	WSADATA data;
 	WSAStartup(0x0202, &data);
 
+	char serverIP[256];
+	ZeroMemory(serverIP, 256);
+	rc.IPCatch(serverIP);
 	SOCKET listen_socket = socket(AF_INET, SOCK_DGRAM, 0);
 	sockaddr_in addr_data = { AF_INET, htons(rc.GetPort()), };
-	InetPtonA(AF_INET, "127.0.0.1", &addr_data.sin_addr.s_addr);
+	InetPtonA(AF_INET, serverIP, &addr_data.sin_addr.s_addr);
 
 	bind(listen_socket, (sockaddr*)&addr_data, sizeof(addr_data));
 	printf("수신 시작");
@@ -25,9 +28,6 @@ int main()
 	int recv_len = sizeof(recv_socket);
 
 	char buf[1024];
-	char serverIP[256];
-	ZeroMemory(serverIP, 256);
-	rc.IPCatch(serverIP);
 	char killPacket[256];
 	ZeroMemory(killPacket, 256);
 	char shutdownPacket[256];

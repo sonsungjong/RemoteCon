@@ -7,6 +7,7 @@
 #pragma comment (lib, "WS2_32.lib")
 
 #define PORT 40004
+#define IP "172.16.5.242"
 
 BOOL ProcessKill(const char* a_process_name);
 void WindowsOff3();
@@ -49,7 +50,7 @@ int main()
 
 	SOCKET listen_socket = socket(AF_INET, SOCK_DGRAM, 0);
 	sockaddr_in addr_data = { AF_INET, htons(PORT), };
-	InetPtonA(AF_INET, "127.0.0.1", &addr_data.sin_addr.s_addr);
+	InetPtonA(AF_INET, IP, &addr_data.sin_addr.s_addr);
 
 	bind(listen_socket, (sockaddr*)&addr_data, sizeof(addr_data));
 	

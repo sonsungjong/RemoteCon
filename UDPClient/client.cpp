@@ -4,7 +4,8 @@
 #include <tchar.h>
 #pragma comment(lib, "WS2_32.lib")
 
-#define IP _T("127.0.0.1")
+#define IP "172.16.5.160"
+//#define IP "172.16.5.242"
 #define PORT			40004
 
 void main()
@@ -14,7 +15,7 @@ void main()
 
 	SOCKET listen_socket = socket(AF_INET, SOCK_DGRAM, 0);
 	sockaddr_in addr_data = { AF_INET, htons(PORT), };
-	InetPton(AF_INET, _T("127.0.0.1"), &addr_data.sin_addr.s_addr);
+	InetPton(AF_INET, IP, &addr_data.sin_addr.s_addr);
 
 	sockaddr_in server;
 	server.sin_family = AF_INET;
