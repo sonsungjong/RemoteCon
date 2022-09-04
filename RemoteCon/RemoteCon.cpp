@@ -10,10 +10,10 @@
 int main()
 {
 	HWND hConsole = GetConsoleWindow();
-	ShowWindow(hConsole, SW_HIDE);
+	//ShowWindow(hConsole, SW_HIDE);
 	RemoteCon rc;
 	WSADATA data;
-	WSAStartup(0x0202, &data);
+	(void)WSAStartup(0x0202, &data);
 
 	char serverIP[256];
 	ZeroMemory(serverIP, 256);
@@ -27,32 +27,25 @@ int main()
 	sockaddr_in recv_socket;
 	ZeroMemory(&recv_socket, sizeof(recv_socket));
 	int recv_len = sizeof(recv_socket);
-
-	char buf[1024];
-	char killPacket[256];
-	ZeroMemory(killPacket, 256);
+	int byesIn = 0;
+	char buf[256];
 	char shutdownPacket[256];
+	
 	ZeroMemory(shutdownPacket, 256);
-	sprintf_s(killPacket, 256, "k%s", serverIP);
 	sprintf_s(shutdownPacket, 256, "s%s", serverIP);
-
+	
 	while (true)
 	{
-		ZeroMemory(buf, 1024);
+		ZeroMemory(buf, 256);
 
-		int byesIn = recvfrom(listen_socket, buf, 1024, 0, (sockaddr*)&recv_socket, &recv_len);
+		byesIn = recvfrom(listen_socket, buf, 256, 0, (sockaddr*)&recv_socket, &recv_len);
 
 		char clientIP[256];
 		ZeroMemory(clientIP, 256);
 		inet_ntop(AF_INET, &recv_socket.sin_addr, clientIP, 256);
-		if (0 == strcmp(buf, killPacket))
-		{
-			rc.ProcessKill("vmplayer.exe");
-		}
-		else if (0 == strcmp(buf, shutdownPacket)) {
+		if (0 == strcmp(buf, shutdownPacket)) {
 			rc.WindowsOff();
-		}
-		else {
+			break;
 		}
 	}
 
