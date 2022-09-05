@@ -28,7 +28,6 @@ int main()
 	ZeroMemory(&recv_socket, sizeof(recv_socket));
 	int recv_len = sizeof(recv_socket);
 	int byesIn = 0;
-	char buf[256];
 	char shutdownPacket[256];
 	
 	ZeroMemory(shutdownPacket, 256);
@@ -36,16 +35,20 @@ int main()
 	
 	while (true)
 	{
+		char buf[256];
+		char clientIP[256];
 		ZeroMemory(buf, 256);
+		ZeroMemory(clientIP, 256);
 
 		byesIn = recvfrom(listen_socket, buf, 256, 0, (sockaddr*)&recv_socket, &recv_len);
 
-		char clientIP[256];
-		ZeroMemory(clientIP, 256);
 		inet_ntop(AF_INET, &recv_socket.sin_addr, clientIP, 256);
 		if (0 == strcmp(buf, shutdownPacket)) {
 			rc.WindowsOff();
 			break;
+		}
+		else {
+			(void)getchar();
 		}
 	}
 
