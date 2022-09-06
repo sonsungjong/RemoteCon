@@ -48,7 +48,7 @@ int main()
 			break;
 		}
 		else {
-			(void)getchar();
+			(void)printf("%s\n", buf);
 		}
 	}
 
