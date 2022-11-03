@@ -10,7 +10,7 @@
 int main()
 {
 	HWND hConsole = GetConsoleWindow();
-	//ShowWindow(hConsole, SW_HIDE);
+	//ShowWindow(hConsole, SW_HIDE);										// cmd창 숨기기
 	RemoteCon rc;
 	WSADATA data;
 	(void)WSAStartup(0x0202, &data);
@@ -48,8 +48,9 @@ int main()
 			break;
 		}
 		else {
-			(void)printf("%s\n", buf);
+			rewind(stdin);												// 버퍼 비우기
 		}
+		Sleep(20);
 	}
 
 	closesocket(listen_socket);
